@@ -1,0 +1,224 @@
+/* Player panel */
+.player-name { color: var(--ink-bright); font-weight: 700; }
+.player-level { margin: 0.2rem 0 0.5rem; }
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.22rem 0;
+  font-size: 0.72rem;
+}
+.bar-label { color: var(--ink-dim); }
+.bar {
+  position: relative;
+  height: 9px;
+  background: #0c1a13;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bar-fill { position: absolute; inset: 0 auto 0 0; height: 100%; transition: width 0.4s ease; }
+.b-exp .bar-fill { background: linear-gradient(90deg, #2f8f5a, #7fe0a3); }
+.b-hp .bar-fill { background: linear-gradient(90deg, #a83a3a, #ff6a5a); }
+.b-mp .bar-fill { background: linear-gradient(90deg, #2f5f9f, #5fa8e6); }
+.b-sta .bar-fill { background: linear-gradient(90deg, #b0852f, #ffd166); }
+.bar-value { color: var(--ink); font-size: 0.68rem; white-space: nowrap; }
+
+.attributes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15rem 0.8rem; }
+.attr-row {
+  display: grid;
+  grid-template-columns: 34px 24px auto;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: inherit;
+  padding: 0;
+  text-align: left;
+  cursor: default;
+}
+.attr-name { color: var(--ink-dim); }
+
+.growth-banner {
+  font-size: 0.75rem;
+  color: var(--amber);
+  border: 1px dashed var(--amber);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  animation: growth-pulse 1.8s ease-in-out infinite;
+}
+.attributes-glow { border-radius: 6px; padding: 0.3rem; box-shadow: 0 0 0 1px rgba(224, 162, 74, 0.3) inset; }
+.attr-clickable {
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+.attr-clickable:hover {
+  background: rgba(224, 162, 74, 0.15);
+}
+.attr-clickable .attr-name { color: var(--amber); }
+@keyframes growth-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.item-list,
+.entity-list,
+.quest-list { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; }
+.item-list li,
+.entity-list li {
+  padding: 0.12rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.item-icon,
+.entity-icon {
+  display: inline-flex;
+  width: 1.2em;
+  justify-content: center;
+  color: currentColor;
+  opacity: 0.9;
+}
+.lucide { vertical-align: middle; }
+
+/* rarity tints */
+.r-common { color: var(--ink); }
+.r-uncommon { color: var(--cyan); }
+.r-rare { color: #6fb3ff; }
+.r-epic { color: var(--magenta); }
+.r-legendary { color: var(--amber); }
+
+/* Location panel */
+.loc-name { color: var(--amber); font-weight: 700; }
+.loc-cond { font-size: 0.8rem; }
+
+/* Compass */
+.compass { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
+.cmp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 30px);
+  grid-template-rows: repeat(3, 26px);
+  gap: 3px;
+}
+.cmp-cell {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+}
+.cmp-on { color: var(--ink-bright); border-color: var(--ink); box-shadow: 0 0 8px rgba(134, 230, 172, 0.35) inset; }
+.cmp-off { opacity: 0.3; }
+.cmp-locked { color: var(--red); border-color: var(--red); }
+.cmp-here { color: var(--amber); border-color: var(--amber); }
+.cmp-vert { display: flex; gap: 0.9rem; font-size: 0.75rem; }
+.cmp-vert span { display: inline-flex; align-items: center; gap: 0.2rem; }
+.cmp-legend { list-style: none; padding: 0; margin: 0; font-size: 0.76rem; width: 100%; }
+.cmp-legend li { padding: 0.05rem 0; }
+
+/* Quests */
+.quest-list > li { margin-bottom: 0.55rem; }
+.quest-list ul { list-style: none; margin: 0.1rem 0 0; padding-left: 0.6rem; }
+.quest-name { font-weight: 600; }
+.obj { color: var(--ink-dim); }
+.obj-done { color: var(--ink); text-decoration: line-through; opacity: 0.65; }
+
+/* --- Living compass ------------------------------------------------------ */
+.compass { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
+.cmp-dial-wrap { width: 120px; height: 120px; }
+.cmp-dial { width: 100%; height: 100%; }
+.cmp-ring { fill: rgba(6, 16, 12, 0.6); stroke: var(--ink-dim); stroke-width: 1.5; }
+.cmp-tick { fill: var(--ink-dim); font-size: 9px; text-anchor: middle; font-family: var(--font-mono); }
+.cmp-node { stroke: var(--border); stroke-width: 1; cursor: pointer; }
+.cmp-node-open { fill: var(--ink); filter: drop-shadow(0 0 3px rgba(134, 230, 172, 0.6)); }
+.cmp-node-locked { fill: var(--red); filter: drop-shadow(0 0 3px rgba(255, 106, 90, 0.6)); }
+.cmp-needle-n { fill: #ff6a5a; }
+.cmp-needle-s { fill: #c8d4d0; }
+.cmp-pivot { fill: var(--ink-bright); }
+.cmp-vert { display: flex; gap: 0.9rem; font-size: 0.75rem; }
+.cmp-legend { list-style: none; padding: 0; margin: 0; font-size: 0.76rem; width: 100%; }
+.cmp-legend li { padding: 0.05rem 0; }
+.cmp-on { color: var(--ink-bright); }
+.cmp-locked { color: var(--red); }
+
+/* --- Grid backpack --------------------------------------------------------- */
+.backpack { display: flex; flex-direction: column; gap: 0.5rem; }
+.backpack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.bp-slot {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(6, 14, 10, 0.5);
+  display: grid;
+  place-items: center;
+  color: currentColor;
+}
+.bp-filled {
+  border-color: currentColor;
+  box-shadow: 0 0 6px currentColor inset;
+}
+.bp-qty {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-size: 0.6rem;
+  color: var(--ink-bright);
+  text-shadow: 0 0 2px #000;
+}
+.bp-tooltip {
+  min-height: 1.1rem;
+  font-size: 0.78rem;
+}
+
+/* --- NPC portraits --------------------------------------------------------- */
+.portrait-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.portrait-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.npc-portrait {
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #050a08;
+  font-size: 0.62rem;
+  line-height: 1.05;
+  white-space: pre;
+  text-shadow: 0 0 4px currentColor;
+}
+
+/* --- Weather badge --------------------------------------------------------- */
+.weather-row { display: flex; align-items: center; gap: 0.4rem; }
+.weather-badge { display: inline-flex; position: relative; }
+.wx-rain svg { animation: wx-rain-bob 1.4s ease-in-out infinite; }
+.wx-fog svg { animation: wx-fog-drift 4s ease-in-out infinite; }
+.wx-clear svg { color: var(--yellow); }
+.wx-moon { position: absolute; right: -4px; bottom: -3px; }
+@keyframes wx-rain-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+}
+@keyframes wx-fog-drift {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wx-rain svg, .wx-fog svg { animation: none; }
+}

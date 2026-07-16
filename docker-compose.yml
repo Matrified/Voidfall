@@ -1,0 +1,54 @@
+# Full production-shaped stack: Postgres, Redis, the FastAPI backend, and the
+# nginx-served frontend. For local development you can instead run the backend and
+# frontend dev servers directly (see README).
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: voidfall
+      POSTGRES_PASSWORD: voidfall
+      POSTGRES_DB: voidfall
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U voidfall"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      VOIDFALL_ENVIRONMENT: production
+      VOIDFALL_DATABASE_URL: postgresql+psycopg://voidfall:voidfall@db:5432/voidfall
+      VOIDFALL_REDIS_URL: redis://redis:6379/0
+      VOIDFALL_JWT_SECRET: ${VOIDFALL_JWT_SECRET:-please-override-me-in-a-real-deploy}
+      VOIDFALL_CORS_ORIGINS: '["http://localhost:8080"]'
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:

@@ -1,0 +1,201 @@
+:root {
+  --bg: #03050a;
+  --panel-bg: rgba(10, 20, 16, 0.5);
+  --ink: #86e6ac;
+  --ink-bright: #c6ffdb;
+  --ink-dim: #3f6b52;
+  --amber: #e0a24a;
+  --red: #ff6a5a;
+  --cyan: #5fe6d6;
+  --yellow: #ffd166;
+  --magenta: #d79bff;
+  --border: #143324;
+  --font-mono: "Cascadia Code", "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background:
+    radial-gradient(1400px 800px at 50% -20%, #0c1a16 0%, #03050a 60%),
+    #02040a;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* The monitor fills the entire window — no wasted border space. */
+.room {
+  height: 100%;
+  width: 100%;
+}
+.device {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.power-led {
+  position: absolute;
+  right: 12px;
+  bottom: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7dffa6;
+  box-shadow: 0 0 10px 2px rgba(125, 255, 166, 0.8);
+  animation: led-pulse 3s ease-in-out infinite;
+  z-index: 7;
+}
+@keyframes led-pulse {
+  50% { opacity: 0.45; }
+}
+
+/* The glass screen fills the device; curvature is implied by the vignette + glare. */
+.screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(130% 130% at 50% 42%, #061410 0%, #030a08 68%, #010604 100%);
+  box-shadow:
+    inset 0 0 160px rgba(0, 0, 0, 0.9),
+    inset 0 0 24px rgba(134, 230, 172, 0.1);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  z-index: 2;
+}
+.title-block {
+  text-align: center;
+}
+.brand {
+  display: block;
+  color: var(--red);
+  letter-spacing: 0.5em;
+  font-weight: 700;
+  text-shadow: 1px 0 2px rgba(255, 106, 90, 0.6), -1px 0 2px rgba(95, 230, 214, 0.4);
+}
+.subtitle {
+  display: block;
+  color: var(--ink-dim);
+  letter-spacing: 0.35em;
+  font-size: 0.66rem;
+  margin-top: 0.15rem;
+}
+
+/* Three-column layout */
+.layout {
+  display: grid;
+  grid-template-columns: 238px 1fr 250px;
+  gap: 0.7rem;
+  padding: 0.7rem;
+  min-height: 0;
+  z-index: 2;
+}
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  padding: 0.7rem 0.8rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.panel-title {
+  margin: 0 0 0.4rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.25em;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.2rem;
+}
+
+/* Center: scene viewport dominates, narration + input below. */
+.center {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 0.6rem;
+}
+.viewport {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #020604;
+}
+.location-stamp {
+  position: absolute;
+  left: 0.8rem;
+  bottom: 0.6rem;
+  color: var(--amber);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+/* Utility colors */
+.dim { color: var(--ink-dim); }
+.small { font-size: 0.75rem; }
+.c-red { color: var(--red); }
+.c-cyan { color: var(--cyan); }
+.c-yellow { color: var(--yellow); }
+.c-magenta { color: var(--magenta); }
+.c-white { color: var(--ink-bright); }
+.c-bright-green { color: var(--ink-bright); }
+.c-green { color: var(--ink); }
+.b { font-weight: 700; }
+
+/* Footer */
+.app-footer {
+  display: flex;
+  gap: 1.1rem;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.35rem 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--ink-dim);
+  font-size: 0.72rem;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+.link {
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+.link:hover {
+  color: var(--ink-bright);
+}
+
+@media (max-width: 1000px) {
+  body { overflow: auto; }
+  .device { height: auto; }
+  .layout { grid-template-columns: 1fr; }
+  .viewport { min-height: 260px; }
+}
